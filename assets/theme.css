@@ -1,0 +1,12 @@
+/* Techocratic — website color theme */
+:root {
+  --tc-navy: #06038D;    /* primary brand, headings, links */
+  --tc-saffron: #FF671F; /* CTAs, highlights, active states */
+  --tc-green: #046A38;   /* success, secondary accent */
+  --tc-ink: #1a1917;     /* body text */
+  --tc-paper: #f4f2ee;   /* page background */
+  --tc-white: #ffffff;   /* cards, surfaces */
+  --tc-stone: #8a857b;   /* secondary text, captions */
+  --tc-border: #e2ded6;  /* dividers, card borders */
+}
+/* Type: 'Space Grotesk' for headings/UI, 'IBM Plex Mono' for labels/captions */

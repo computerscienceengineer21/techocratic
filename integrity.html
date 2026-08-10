@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>techocratic — stopping corruption</title>
+  <meta name="description" content="Make cheating a losing game: surprise checks, double-checking, rewards for honesty, public records, and protection for those who speak up.">
+  <link rel="icon" type="image/png" href="assets/techocratic-app-icon.png">
+  <script>
+    (function () { try {
+      if (sessionStorage.getItem('tc-splash-seen')) document.documentElement.classList.add('splash-seen');
+      else document.documentElement.classList.add('splash-pending');
+      if (localStorage.getItem('tc-theme') === 'dark') document.documentElement.classList.add('theme-dark');
+    } catch (e) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/theme.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="integrity">
+
+  <!-- ======== sunrise splash ======== -->
+  <div class="splash" id="splash" aria-hidden="true">
+    <div class="splash-inner">
+      <svg class="splash-sun" viewBox="-42 -32 84 40" role="img" aria-label="techocratic rising sun">
+        <defs><clipPath id="tc-sunclip"><rect x="-42" y="-34" width="84" height="34"></rect></clipPath></defs>
+        <g clip-path="url(#tc-sunclip)">
+          <g class="r">
+            <path d="M -26 0 A 26 26 0 0 1 26 0" fill="none" stroke="#FF671F" stroke-width="3.4"></path>
+            <line class="ray" x1="-6.279" y1="-1.682" x2="-21.733" y2="-5.823" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="-5.629" y1="-3.25" x2="-19.486" y2="-11.25" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="-4.596" y1="-4.596" x2="-15.91" y2="-15.91" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="-3.25" y1="-5.629" x2="-11.25" y2="-19.486" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="-1.682" y1="-6.279" x2="-5.823" y2="-21.733" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="0" y1="-6.5" x2="0" y2="-22.5" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="1.682" y1="-6.279" x2="5.823" y2="-21.733" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="3.25" y1="-5.629" x2="11.25" y2="-19.486" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="4.596" y1="-4.596" x2="15.91" y2="-15.91" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="5.629" y1="-3.25" x2="19.486" y2="-11.25" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="6.279" y1="-1.682" x2="21.733" y2="-5.823" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <path d="M -5.5 0 A 5.5 5.5 0 0 1 5.5 0 Z" fill="#06038D"></path>
+          </g>
+        </g>
+        <line class="hz" x1="-38" y1="0" x2="38" y2="0" stroke="#046A38" stroke-width="3.4" stroke-linecap="round"></line>
+      </svg>
+      <div class="splash-word">techocratic</div>
+      <div class="splash-tag">a clearer, fairer way to run india</div>
+    </div>
+  </div>
+
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- ======== nav ======== -->
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html" aria-label="techocratic home">
+        <img class="mark-light" src="assets/techocratic-mark.svg" alt="">
+        <img class="mark-dark" src="assets/techocratic-mark-white.svg" alt="">
+        <span class="brand-word">techocratic</span>
+      </a>
+      <nav class="nav-links" aria-label="primary">
+        <a href="index.html" data-nav="index">the idea</a>
+        <a href="architecture.html" data-nav="architecture">how it works</a>
+        <a href="pillars.html" data-nav="pillars">the 7 pillars</a>
+        <a href="integrity.html" data-nav="integrity">stopping corruption</a>
+        <a href="roadmap.html" data-nav="roadmap">the plan</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" aria-label="toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+        </button>
+        <button class="menu-toggle" aria-label="open menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" aria-hidden="true">
+    <ul>
+      <li><a href="index.html" data-nav="index"><span class="mm-num">01</span>the idea</a></li>
+      <li><a href="architecture.html" data-nav="architecture"><span class="mm-num">02</span>how it works</a></li>
+      <li><a href="pillars.html" data-nav="pillars"><span class="mm-num">03</span>the 7 pillars</a></li>
+      <li><a href="integrity.html" data-nav="integrity"><span class="mm-num">04</span>stopping corruption</a></li>
+      <li><a href="roadmap.html" data-nav="roadmap"><span class="mm-num">05</span>the plan</a></li>
+    </ul>
+  </div>
+
+  <main>
+
+    <!-- ======== hero ======== -->
+    <section class="hero hero-sub">
+      <div class="container hero-content">
+        <p class="eyebrow" data-hero-fade>04 — stopping corruption</p>
+        <h1 class="display" data-split>make cheating a losing game.</h1>
+        <p class="stand" data-hero-fade>You cannot run a country on the hope that everyone stays honest. But you can build one where cheating simply does not pay — even when ten crore is on the table.</p>
+      </div>
+      <div class="hero-scroll-hint" data-hero-fade>scroll</div>
+    </section>
+
+    <!-- ======== the army model ======== -->
+    <section class="section section-tight">
+      <div class="container">
+        <div class="grid-2" style="align-items:start;">
+          <blockquote class="pull-quote" data-reveal>The army does not just find strong people — it makes them. Ordinary recruits walk in; strong soldiers walk out.</blockquote>
+          <div>
+            <p class="stand" data-reveal>We build honest institutions the same way. Inspectors, police, and judges are chosen for honesty and knowledge at the gate — and then training, culture, and protected careers make honesty the normal way of working, not an act of heroism.</p>
+            <p class="stand" data-reveal style="margin-top:1.4rem; color: var(--tc-stone);">And around those people, the system is built so that a scam can only succeed if many separate safeguards all fail at the same time.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== six mechanisms ======== -->
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow" data-reveal>six locks on the same door</p>
+        <h2 class="title-lg" data-reveal>one door. six locks.<br>a scam must break them all.</h2>
+        <div class="mech-grid" style="margin-top: clamp(2.5rem, 5vw, 4rem);">
+
+          <div class="card mech-card" data-mech>
+            <svg class="lock-badge" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path class="shackle" d="M 11 16 v -5 a 6 6 0 0 1 12 0 v 5"></path>
+              <rect x="8" y="16" width="18" height="12" rx="3"></rect>
+              <circle cx="17" cy="22" r="1.6" fill="currentColor" stroke="none"></circle>
+            </svg>
+            <div class="m-num">mechanism 01</div>
+            <h3>inspectors chosen by lottery</h3>
+            <p>Which inspector checks which office? A lottery decides — at the last moment, with frequent rotation. You cannot bribe an inspector when you do not know who is coming.</p>
+            <div style="margin-top:1.3rem; color: var(--tc-saffron);"><span class="die" id="mechDie" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+          </div>
+
+          <div class="card mech-card" data-mech>
+            <svg class="lock-badge" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path class="shackle" d="M 11 16 v -5 a 6 6 0 0 1 12 0 v 5"></path>
+              <rect x="8" y="16" width="18" height="12" rx="3"></rect>
+              <circle cx="17" cy="22" r="1.6" fill="currentColor" stroke="none"></circle>
+            </svg>
+            <div class="m-num">mechanism 02</div>
+            <h3>two teams, same books</h3>
+            <p>Sometimes two teams check the same accounts — without knowing about each other. If their reports do not match, someone made a mistake or someone was bought. Cheating does not just fail; it exposes itself.</p>
+          </div>
+
+          <div class="card mech-card" data-mech>
+            <svg class="lock-badge" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path class="shackle" d="M 11 16 v -5 a 6 6 0 0 1 12 0 v 5"></path>
+              <rect x="8" y="16" width="18" height="12" rx="3"></rect>
+              <circle cx="17" cy="22" r="1.6" fill="currentColor" stroke="none"></circle>
+            </svg>
+            <div class="m-num">mechanism 03</div>
+            <h3>honesty pays better</h3>
+            <p>Inspectors earn more for finding real problems. And anyone who exposes a scam gets a share of the money recovered — so betraying a scam pays better than joining one.</p>
+          </div>
+
+          <div class="card mech-card" data-mech>
+            <svg class="lock-badge" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path class="shackle" d="M 11 16 v -5 a 6 6 0 0 1 12 0 v 5"></path>
+              <rect x="8" y="16" width="18" height="12" rx="3"></rect>
+              <circle cx="17" cy="22" r="1.6" fill="currentColor" stroke="none"></circle>
+            </svg>
+            <div class="m-num">mechanism 04</div>
+            <h3>every inspector's record is public — forever</h3>
+            <p>Who checked what, who cleared whom — on the public record for life. If an office you cleared collapses in a scandal, that clearance follows your name. The AI even flags odd patterns — like the inspector who never finds anything wrong.</p>
+          </div>
+
+          <div class="card mech-card" data-mech>
+            <svg class="lock-badge" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path class="shackle" d="M 11 16 v -5 a 6 6 0 0 1 12 0 v 5"></path>
+              <rect x="8" y="16" width="18" height="12" rx="3"></rect>
+              <circle cx="17" cy="22" r="1.6" fill="currentColor" stroke="none"></circle>
+            </svg>
+            <div class="m-num">mechanism 05</div>
+            <h3>protection for truth-finders</h3>
+            <p>Harsh punishment for inspectors who join a scam — and strong protection for those who expose one and make powerful enemies: fixed terms, and transfers only by a panel that must publish its reasons. If exposing a minister ends your career, you get inspectors who find nothing.</p>
+          </div>
+
+          <div class="card mech-card" data-mech>
+            <svg class="lock-badge" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path class="shackle" d="M 11 16 v -5 a 6 6 0 0 1 12 0 v 5"></path>
+              <rect x="8" y="16" width="18" height="12" rx="3"></rect>
+              <circle cx="17" cy="22" r="1.6" fill="currentColor" stroke="none"></circle>
+            </svg>
+            <div class="m-num">mechanism 06</div>
+            <h3>security before the first attack</h3>
+            <p>Real security for judges, inspectors, and witnesses under threat — arranged before anything happens, not after. If the first threat works, every criminal learns that threats work. If it fails, they learn the opposite.</p>
+          </div>
+
+        </div>
+        <p class="stand" data-reveal style="margin: clamp(3rem, 6vw, 4.5rem) auto 0; text-align:center; max-width: 60ch;">None of this needs saints. It only needs ordinary people responding to rewards and consequences — the one thing about human beings you can always count on.</p>
+      </div>
+    </section>
+
+    <!-- ======== the apex ======== -->
+    <section class="section section-tight">
+      <div class="container">
+        <div class="apex-panel" data-reveal>
+          <p class="eyebrow eyebrow-center" style="color:#ffb38a;">and at the very top</p>
+          <h2 class="title-lg">who watches the watchers?</h2>
+          <div class="apex-node" aria-hidden="true">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="core"></div>
+          </div>
+          <p class="stand" style="max-width: 62ch;">At the very top sits one small group that oversees everyone else — fully public, changed regularly, chosen partly by lottery. Some trust can never be removed from any system. Ours shrinks it down: from trusting thousands of officers one by one, to trusting that this one small, brightly-lit group is not entirely bought at once. That is the most honest promise any system can make.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== next page ======== -->
+    <div class="next-page">
+      <a href="roadmap.html">
+        <span class="np-label">continue — 05</span>
+        <span class="np-title">the plan <span class="arr">→</span></span>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ======== footer ======== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a class="f-brand" href="index.html" aria-label="techocratic home">
+        <img class="mark-light" src="assets/techocratic-lockup-light.png" alt="techocratic">
+        <img class="mark-dark" src="assets/techocratic-lockup-dark.png" alt="techocratic">
+      </a>
+      <nav class="footer-links" aria-label="footer">
+        <a href="index.html">the idea</a>
+        <a href="architecture.html">how it works</a>
+        <a href="pillars.html">the 7 pillars</a>
+        <a href="integrity.html">stopping corruption</a>
+        <a href="roadmap.html">the plan</a>
+        <a href="technocracy_vision_india.md">read the full document ↓</a>
+      </nav>
+      <p class="f-note">© <span data-year></span> techocratic — people decide; technology helps.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/pages.js"></script>
+</body>
+</html>

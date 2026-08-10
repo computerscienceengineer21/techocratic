@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>techocratic — how it works</title>
+  <meta name="description" content="Four simple steps: people say what matters most, hard rules protect the basics, a computer shows the options — and people always get the final word.">
+  <link rel="icon" type="image/png" href="assets/techocratic-app-icon.png">
+  <script>
+    (function () { try {
+      if (sessionStorage.getItem('tc-splash-seen')) document.documentElement.classList.add('splash-seen');
+      else document.documentElement.classList.add('splash-pending');
+      if (localStorage.getItem('tc-theme') === 'dark') document.documentElement.classList.add('theme-dark');
+    } catch (e) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/theme.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="architecture">
+
+  <!-- ======== sunrise splash ======== -->
+  <div class="splash" id="splash" aria-hidden="true">
+    <div class="splash-inner">
+      <svg class="splash-sun" viewBox="-42 -32 84 40" role="img" aria-label="techocratic rising sun">
+        <defs><clipPath id="tc-sunclip"><rect x="-42" y="-34" width="84" height="34"></rect></clipPath></defs>
+        <g clip-path="url(#tc-sunclip)">
+          <g class="r">
+            <path d="M -26 0 A 26 26 0 0 1 26 0" fill="none" stroke="#FF671F" stroke-width="3.4"></path>
+            <line class="ray" x1="-6.279" y1="-1.682" x2="-21.733" y2="-5.823" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="-5.629" y1="-3.25" x2="-19.486" y2="-11.25" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="-4.596" y1="-4.596" x2="-15.91" y2="-15.91" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="-3.25" y1="-5.629" x2="-11.25" y2="-19.486" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="-1.682" y1="-6.279" x2="-5.823" y2="-21.733" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="0" y1="-6.5" x2="0" y2="-22.5" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="1.682" y1="-6.279" x2="5.823" y2="-21.733" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="3.25" y1="-5.629" x2="11.25" y2="-19.486" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="4.596" y1="-4.596" x2="15.91" y2="-15.91" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="5.629" y1="-3.25" x2="19.486" y2="-11.25" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <line class="ray" x1="6.279" y1="-1.682" x2="21.733" y2="-5.823" stroke="#FF671F" stroke-width="1.7" stroke-linecap="round"></line>
+            <path d="M -5.5 0 A 5.5 5.5 0 0 1 5.5 0 Z" fill="#06038D"></path>
+          </g>
+        </g>
+        <line class="hz" x1="-38" y1="0" x2="38" y2="0" stroke="#046A38" stroke-width="3.4" stroke-linecap="round"></line>
+      </svg>
+      <div class="splash-word">techocratic</div>
+      <div class="splash-tag">a clearer, fairer way to run india</div>
+    </div>
+  </div>
+
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- ======== nav ======== -->
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html" aria-label="techocratic home">
+        <img class="mark-light" src="assets/techocratic-mark.svg" alt="">
+        <img class="mark-dark" src="assets/techocratic-mark-white.svg" alt="">
+        <span class="brand-word">techocratic</span>
+      </a>
+      <nav class="nav-links" aria-label="primary">
+        <a href="index.html" data-nav="index">the idea</a>
+        <a href="architecture.html" data-nav="architecture">how it works</a>
+        <a href="pillars.html" data-nav="pillars">the 7 pillars</a>
+        <a href="integrity.html" data-nav="integrity">stopping corruption</a>
+        <a href="roadmap.html" data-nav="roadmap">the plan</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" aria-label="toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+        </button>
+        <button class="menu-toggle" aria-label="open menu"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" aria-hidden="true">
+    <ul>
+      <li><a href="index.html" data-nav="index"><span class="mm-num">01</span>the idea</a></li>
+      <li><a href="architecture.html" data-nav="architecture"><span class="mm-num">02</span>how it works</a></li>
+      <li><a href="pillars.html" data-nav="pillars"><span class="mm-num">03</span>the 7 pillars</a></li>
+      <li><a href="integrity.html" data-nav="integrity"><span class="mm-num">04</span>stopping corruption</a></li>
+      <li><a href="roadmap.html" data-nav="roadmap"><span class="mm-num">05</span>the plan</a></li>
+    </ul>
+  </div>
+
+  <main>
+
+    <!-- ======== hero ======== -->
+    <section class="hero hero-sub">
+      <div class="container hero-content">
+        <p class="eyebrow" data-hero-fade>02 — how it works</p>
+        <h1 class="display" data-split>four simple steps.</h1>
+        <p class="stand" data-hero-fade>Every big decision about your money follows the same path: people say what matters most, hard rules protect the basics, a computer works out the options and shows its working — and people always get the final word.</p>
+      </div>
+      <div class="hero-scroll-hint" data-hero-fade>scroll</div>
+    </section>
+
+    <!-- ======== control loop (pinned scrollytelling) ======== -->
+    <section class="loop-wrap">
+      <div class="container loop-pin">
+        <div class="loop-stage">
+          <svg id="loopSvg" viewBox="0 0 480 480" aria-label="Diagram of the four steps: people, hard rules, computer, vote — watched by a question-asking AI">
+            <!-- connectors -->
+            <path class="loop-arc arc-1" d="M 240 80 A 160 160 0 0 1 400 240" fill="none" stroke="#8a857b" stroke-width="2" stroke-dasharray="6 8" opacity="0.35"></path>
+            <path class="loop-arc arc-2" d="M 400 240 A 160 160 0 0 1 240 400" fill="none" stroke="#8a857b" stroke-width="2" stroke-dasharray="6 8" opacity="0.35"></path>
+            <path class="loop-arc arc-3" d="M 240 400 A 160 160 0 0 1 80 240" fill="none" stroke="#8a857b" stroke-width="2" stroke-dasharray="6 8" opacity="0.35"></path>
+            <path class="loop-arc arc-4" d="M 80 240 A 160 160 0 0 1 240 80" fill="none" stroke="#8a857b" stroke-width="2" stroke-dasharray="6 8" opacity="0.35"></path>
+            <!-- critic sight lines -->
+            <g class="critic-lines" opacity="0">
+              <line x1="240" y1="240" x2="240" y2="128" stroke="#FF671F" stroke-width="1.5" stroke-dasharray="3 5"></line>
+              <line x1="240" y1="240" x2="352" y2="240" stroke="#FF671F" stroke-width="1.5" stroke-dasharray="3 5"></line>
+              <line x1="240" y1="240" x2="240" y2="352" stroke="#FF671F" stroke-width="1.5" stroke-dasharray="3 5"></line>
+              <line x1="240" y1="240" x2="128" y2="240" stroke="#FF671F" stroke-width="1.5" stroke-dasharray="3 5"></line>
+            </g>
+            <!-- nodes -->
+            <g class="loop-node node-1">
+              <circle cx="240" cy="80" r="44" fill="#f4f2ee" stroke="#e2ded6" stroke-width="2.5"></circle>
+              <g transform="translate(240 74)" fill="none" stroke="#06038D" stroke-width="2" stroke-linecap="round">
+                <circle cx="-9" cy="-4" r="5"></circle><circle cx="9" cy="-4" r="5"></circle>
+                <path d="M -17 12 c 0 -6 4 -9 8 -9 M -1 12 c 0 -6 4 -9 8 -9 M 1 12 c 0 -6 -4 -9 -8 -9 M 17 12 c 0 -6 -4 -9 -8 -9"></path>
+              </g>
+              <text class="loop-node-label" x="240" y="146" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="12" fill="#8a857b" letter-spacing="2">PEOPLE</text>
+            </g>
+            <g class="loop-node node-2">
+              <circle cx="400" cy="240" r="44" fill="#f4f2ee" stroke="#e2ded6" stroke-width="2.5"></circle>
+              <g transform="translate(400 240)" fill="none" stroke="#046A38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M 0 -16 l 13 6 v 8 c 0 8 -6 13 -13 16 c -7 -3 -13 -8 -13 -16 v -8 z"></path>
+                <path d="M -5 0 l 4 4 l 7 -8"></path>
+              </g>
+              <text class="loop-node-label" x="400" y="306" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="12" fill="#8a857b" letter-spacing="2">HARD RULES</text>
+            </g>
+            <g class="loop-node node-3">
+              <circle cx="240" cy="400" r="44" fill="#f4f2ee" stroke="#e2ded6" stroke-width="2.5"></circle>
+              <g transform="translate(240 400)" fill="none" stroke="#06038D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="-14" y="-14" width="28" height="28" rx="4"></rect>
+                <path d="M -14 -5 h -6 M -14 5 h -6 M 14 -5 h 6 M 14 5 h 6 M -5 -14 v -6 M 5 -14 v -6 M -5 14 v 6 M 5 14 v 6"></path>
+                <rect x="-6" y="-6" width="12" height="12" rx="2"></rect>
+              </g>
+              <text class="loop-node-label" x="240" y="466" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="12" fill="#8a857b" letter-spacing="2">COMPUTER</text>
+            </g>
+            <g class="loop-node node-4">
+              <circle cx="80" cy="240" r="44" fill="#f4f2ee" stroke="#e2ded6" stroke-width="2.5"></circle>
+              <g transform="translate(80 240)" fill="none" stroke="#FF671F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="-15" y="-4" width="30" height="18" rx="3"></rect>
+                <path d="M -6 -4 l 3 -10 h 6 l 3 10"></path>
+                <path d="M -5 5 l 4 4 l 7 -8"></path>
+              </g>
+              <text class="loop-node-label" x="80" y="306" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="12" fill="#8a857b" letter-spacing="2">VOTE</text>
+            </g>
+            <!-- critic (center) -->
+            <g class="loop-critic" opacity="0.45">
+              <circle cx="240" cy="240" r="40" fill="none" stroke="#FF671F" stroke-width="1.8" stroke-dasharray="4 6"></circle>
+              <g fill="none" stroke="#FF671F" stroke-width="2" stroke-linecap="round">
+                <path d="M 216 240 q 24 -18 48 0 q -24 18 -48 0 z"></path>
+                <circle cx="240" cy="240" r="6" fill="#FF671F" stroke="none"></circle>
+              </g>
+              <text class="loop-node-label" x="240" y="200" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="12" fill="#FF671F" letter-spacing="2">AI CRITIC</text>
+            </g>
+          </svg>
+        </div>
+        <div class="loop-steps">
+          <div class="loop-step">
+            <div class="l-num">step 01</div>
+            <h3>people say what matters most</h3>
+            <p>More money for schools? For farmers? For defence? You vote on the priorities — from your phone, with your identity verified. Too busy to follow every topic? Hand your vote on that topic to someone you trust, and take it back whenever you like.</p>
+          </div>
+          <div class="loop-step">
+            <div class="l-num">step 02</div>
+            <h3>some things can never be cut</h3>
+            <p>Money for schools, fair courts, and the minimum support for the poorest are protected by hard rules — like a fixed deposit no one can break in a moment of panic. Changing these rules is possible, but it takes years and a very large majority. A generation can change them; a mood cannot.</p>
+          </div>
+          <div class="loop-step">
+            <div class="l-num">step 03</div>
+            <h3>a computer shows the options — and its working</h3>
+            <p>Once people set the priorities, a public computer works out the possible budgets and what each one would lead to. Like a good maths student, it shows every step of its working — and says honestly when it is not sure. Change its assumptions yourself, and watch the numbers move.</p>
+          </div>
+          <div class="loop-step">
+            <div class="l-num">step 04</div>
+            <h3>people always get the final word</h3>
+            <p>The computer only suggests — it never decides. A machine can answer "what is the fastest way to reach this goal?" but never "what should our goals be?" A machine that picks goals for people would just be a new kind of priest — and this system bans that by design.</p>
+          </div>
+          <div class="loop-step">
+            <div class="l-num">and watching everything</div>
+            <h3>an AI that asks the hard questions</h3>
+            <p>Before any big decision, an AI checks: What could go wrong later? Has this idea failed somewhere before? Does it break the protected rules? Its only power is to ask these questions loudly and publicly — it can never give orders.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== the AI critic ======== -->
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow" data-reveal>the question-asking ai</p>
+        <h2 class="title-lg" data-reveal>before every big decision,<br>one voice always asks —</h2>
+        <p class="critic-quote" style="margin-top: 2rem;" data-reveal>&gt; <span id="criticType"></span><span class="cursor"></span></p>
+        <div class="grid-2" style="margin-top: clamp(3rem, 6vw, 5rem); align-items:start;">
+          <div>
+            <h3 class="title-md" data-reveal style="margin-bottom:1rem;">leaders can overrule it — but never quietly.</h3>
+            <p data-reveal style="color: var(--tc-stone); max-width: 52ch;">In a true emergency the president can act against the AI's warning. But never in secret, and never for free — every overrule comes with a price:</p>
+            <div class="override-meter">
+              <div class="om-row" data-reveal>
+                <div class="om-label"><span>must explain the reasons to the public</span><span>always</span></div>
+                <div class="om-bar"><div class="om-fill" data-om="1"></div></div>
+              </div>
+              <div class="om-row" data-reveal>
+                <div class="om-label"><span>must wait before acting</span><span>always</span></div>
+                <div class="om-bar"><div class="om-fill" data-om="2"></div></div>
+              </div>
+              <div class="om-row" data-reveal>
+                <div class="om-label"><span>needs a much bigger majority</span><span>gravest cases</span></div>
+                <div class="om-bar"><div class="om-fill" data-om="3" style="background: var(--tc-navy);"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="card" data-reveal>
+            <div class="card-icon icon-navy">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </div>
+            <h3>the AI itself has no secrets</h3>
+            <p>How this AI was trained, what it aims for, every update ever made to it — all public, all checkable. A question-asker working in the dark would just be another hidden ruler, and this system allows no hidden rulers.</p>
+            <div class="horizon-rule" style="margin: 1.6rem 0 1.2rem;"></div>
+            <blockquote class="pull-quote" style="border:none; padding:0; font-size: clamp(1.15rem, 2vw, 1.45rem);">"The computer suggests. The people decide."</blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== next page ======== -->
+    <div class="next-page">
+      <a href="pillars.html">
+        <span class="np-label">continue — 03</span>
+        <span class="np-title">the 7 pillars <span class="arr">→</span></span>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ======== footer ======== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a class="f-brand" href="index.html" aria-label="techocratic home">
+        <img class="mark-light" src="assets/techocratic-lockup-light.png" alt="techocratic">
+        <img class="mark-dark" src="assets/techocratic-lockup-dark.png" alt="techocratic">
+      </a>
+      <nav class="footer-links" aria-label="footer">
+        <a href="index.html">the idea</a>
+        <a href="architecture.html">how it works</a>
+        <a href="pillars.html">the 7 pillars</a>
+        <a href="integrity.html">stopping corruption</a>
+        <a href="roadmap.html">the plan</a>
+        <a href="technocracy_vision_india.md">read the full document ↓</a>
+      </nav>
+      <p class="f-note">© <span data-year></span> techocratic — people decide; technology helps.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/pages.js"></script>
+</body>
+</html>
