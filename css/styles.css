@@ -43,8 +43,10 @@ html.theme-dark {
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
-html.lenis { height: auto; }
+/* native smooth scroll only when lenis is not driving; the two fight and
+   produce stutter on anchor jumps and during scrubbed pins */
+html:not(.lenis) { scroll-behavior: smooth; }
+html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto; }
 
 body {
@@ -54,7 +56,10 @@ body {
   line-height: 1.6;
   font-size: 1.0625rem;
   -webkit-font-smoothing: antialiased;
+  /* clip, not hidden: `hidden` makes body a scroll container, which makes
+     ScrollTrigger pins recalculate against the wrong scroller and jitter */
   overflow-x: hidden;
+  overflow-x: clip;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 

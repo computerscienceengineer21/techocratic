@@ -55,15 +55,16 @@
       var ctx2d = canvas.getContext('2d');
       if (!ctx2d) return;
 
-      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       var W = 0, H = 0, nodes = [], running = true;
       var mouse = { x: -1e4, y: -1e4 };
+      var LINK = 130, LINK2 = LINK * LINK;
 
       function resize() {
         W = canvas.clientWidth; H = canvas.clientHeight;
-        canvas.width = W * dpr; canvas.height = H * dpr;
+        canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
         ctx2d.setTransform(dpr, 0, 0, dpr, 0, 0);
-        var count = Math.max(30, Math.min(85, Math.round((W * H) / 17000)));
+        var count = Math.max(28, Math.min(60, Math.round((W * H) / 24000)));
         nodes = [];
         for (var i = 0; i < count; i++) {
           nodes.push({
@@ -77,60 +78,112 @@
         }
       }
 
+      /* rect is cached and refreshed once per frame: reading it on every
+         pointermove forces a layout flush mid-scroll, which stutters */
+      var rect = { left: 0, top: 0 };
+      var pointer = { x: -1e4, y: -1e4 };
+
       window.addEventListener('pointermove', function (e) {
-        var rect = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - rect.left;
-        mouse.y = e.clientY - rect.top;
+        pointer.x = e.clientX; pointer.y = e.clientY;
       }, { passive: true });
+
+      /* links are drawn in a handful of opacity buckets so the whole web is a
+         few batched strokes per frame instead of one stroke() per pair */
+      var BUCKETS = 5;
+      var bucket = [];
+      for (var b = 0; b < BUCKETS; b++) bucket.push([]);
 
       function tick() {
         requestAnimationFrame(tick);
         if (!running) return;
+        rect = canvas.getBoundingClientRect();
+        mouse.x = pointer.x - rect.left;
+        mouse.y = pointer.y - rect.top;
         var dark = document.documentElement.classList.contains('theme-dark');
         var base = dark ? '168,176,255' : '6,3,141';
         var lineA = dark ? 0.15 : 0.09;
         ctx2d.clearRect(0, 0, W, H);
 
-        var i, j, n, m, dx, dy, d;
+        var i, j, k, n, m, dx, dy, d2;
         for (i = 0; i < nodes.length; i++) {
           n = nodes[i];
           n.x += n.vx; n.y += n.vy;
           if (n.x < -20) n.x = W + 20; if (n.x > W + 20) n.x = -20;
           if (n.y < -20) n.y = H + 20; if (n.y > H + 20) n.y = -20;
-          dx = n.x - mouse.x; dy = n.y - mouse.y; d = Math.hypot(dx, dy);
-          if (d < 130 && d > 0.001) { n.x += (dx / d) * 0.6; n.y += (dy / d) * 0.6; }
-        }
-        for (i = 0; i < nodes.length; i++) {
-          for (j = i + 1; j < nodes.length; j++) {
-            n = nodes[i]; m = nodes[j];
-            dx = n.x - m.x; dy = n.y - m.y;
-            if (Math.abs(dx) > 130 || Math.abs(dy) > 130) continue;
-            d = Math.hypot(dx, dy);
-            if (d < 130) {
-              ctx2d.strokeStyle = 'rgba(' + base + ',' + ((1 - d / 130) * lineA).toFixed(3) + ')';
-              ctx2d.lineWidth = 1;
-              ctx2d.beginPath();
-              ctx2d.moveTo(n.x, n.y);
-              ctx2d.lineTo(m.x, m.y);
-              ctx2d.stroke();
-            }
+          dx = n.x - mouse.x; dy = n.y - mouse.y; d2 = dx * dx + dy * dy;
+          if (d2 < LINK2 && d2 > 1e-6) {
+            var dm = Math.sqrt(d2);
+            n.x += (dx / dm) * 0.6; n.y += (dy / dm) * 0.6;
           }
         }
+
+        for (k = 0; k < BUCKETS; k++) bucket[k].length = 0;
         for (i = 0; i < nodes.length; i++) {
           n = nodes[i];
-          ctx2d.fillStyle = n.saff ? 'rgba(255,103,31,0.85)' : 'rgba(' + base + ',' + (dark ? 0.7 : 0.45) + ')';
+          for (j = i + 1; j < nodes.length; j++) {
+            m = nodes[j];
+            dx = n.x - m.x;
+            if (dx > LINK || dx < -LINK) continue;
+            dy = n.y - m.y;
+            if (dy > LINK || dy < -LINK) continue;
+            d2 = dx * dx + dy * dy;
+            if (d2 >= LINK2) continue;
+            k = (1 - Math.sqrt(d2) / LINK) * BUCKETS | 0;
+            if (k > BUCKETS - 1) k = BUCKETS - 1;
+            bucket[k].push(n.x, n.y, m.x, m.y);
+          }
+        }
+
+        ctx2d.lineWidth = 1;
+        for (k = 0; k < BUCKETS; k++) {
+          var seg = bucket[k];
+          if (!seg.length) continue;
+          ctx2d.strokeStyle = 'rgba(' + base + ',' + (((k + 0.5) / BUCKETS) * lineA).toFixed(3) + ')';
           ctx2d.beginPath();
-          ctx2d.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+          for (i = 0; i < seg.length; i += 4) {
+            ctx2d.moveTo(seg[i], seg[i + 1]);
+            ctx2d.lineTo(seg[i + 2], seg[i + 3]);
+          }
+          ctx2d.stroke();
+        }
+
+        /* dots: two fill styles, so two batched paths */
+        var plain = 'rgba(' + base + ',' + (dark ? 0.7 : 0.45) + ')';
+        for (k = 0; k < 2; k++) {
+          ctx2d.fillStyle = k ? 'rgba(255,103,31,0.85)' : plain;
+          ctx2d.beginPath();
+          for (i = 0; i < nodes.length; i++) {
+            n = nodes[i];
+            if (!!n.saff !== !!k) continue;
+            ctx2d.moveTo(n.x + n.r, n.y);
+            ctx2d.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+          }
           ctx2d.fill();
         }
       }
 
+      var visible = true, onscreen = true;
+      function sync() { running = visible && onscreen; }
+
       if ('IntersectionObserver' in window) {
         new IntersectionObserver(function (entries) {
-          running = entries[0].isIntersecting;
+          onscreen = entries[0].isIntersecting;
+          sync();
         }).observe(canvas);
       }
-      window.addEventListener('resize', resize);
+      document.addEventListener('visibilitychange', function () {
+        visible = !document.hidden;
+        sync();
+      });
+
+      /* mobile browsers fire resize as the URL bar collapses; rebuilding the
+         node field on every one of those is pure jank */
+      var rt = null;
+      window.addEventListener('resize', function () {
+        clearTimeout(rt);
+        rt = setTimeout(resize, 180);
+      });
+
       resize();
       requestAnimationFrame(tick);
     })();
@@ -179,7 +232,7 @@
             trigger: pinEl,
             start: 'top top',
             end: '+=2800',
-            scrub: 0.6,
+            scrub: 0.35,
             pin: true,
             anticipatePin: 1
           },
@@ -243,7 +296,7 @@
             trigger: pinEl,
             start: 'top top',
             end: '+=3400',
-            scrub: 0.6,
+            scrub: 0.35,
             pin: true,
             anticipatePin: 1
           },
@@ -344,7 +397,7 @@
             trigger: pinSec,
             start: 'top top',
             end: function () { return '+=' + amt(); },
-            scrub: 0.6,
+            scrub: 0.35,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,

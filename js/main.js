@@ -11,7 +11,12 @@
   var hasGSAP = typeof window.gsap !== 'undefined';
   var hasST = hasGSAP && typeof window.ScrollTrigger !== 'undefined';
 
-  if (hasST) gsap.registerPlugin(ScrollTrigger);
+  if (hasST) {
+    gsap.registerPlugin(ScrollTrigger);
+    /* mobile browsers fire resize every time the URL bar collapses; a full
+       refresh mid-scroll re-measures every pin and makes them jump */
+    ScrollTrigger.config({ ignoreMobileResize: true });
+  }
 
   window.tc = { reduced: reduced, hasGSAP: hasGSAP, hasST: hasST };
 
@@ -76,7 +81,7 @@
     gsap.to(progress, {
       scaleX: 1,
       ease: 'none',
-      scrollTrigger: { start: 0, end: 'max', scrub: 0.4 }
+      scrollTrigger: { start: 0, end: 'max', scrub: 0.25 }
     });
   }
 
@@ -89,7 +94,10 @@
   var seen = false;
   try { seen = !!sessionStorage.getItem('tc-splash-seen'); } catch (e) {}
 
+  var splashEnded = false;
   function endSplash() {
+    if (splashEnded) return;
+    splashEnded = true;
     docEl.classList.remove('splash-pending');
     document.body.classList.remove('no-scroll');
     if (lenis) lenis.start();
@@ -110,6 +118,13 @@
     window.scrollTo(0, 0);
 
     var HOLD_MS = 3000;
+
+    /* failsafe: the splash holds the page unscrollable (lenis stopped,
+       overflow hidden). If the rAF-driven timeline never completes — GSAP
+       stalls, the tab was opened in the background and never focused — the
+       page would be permanently stuck. Release it unconditionally. */
+    setTimeout(endSplash, HOLD_MS + 6000);
+
     var sun = splash.querySelector('.splash-sun');
     var riseGroup = sun ? sun.querySelector('.r') : null;
     var rays = sun ? sun.querySelectorAll('.ray') : [];
